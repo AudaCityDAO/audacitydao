@@ -33,16 +33,16 @@ export const appChains = configureChains(
     }),
     publicProvider(),
   ],
-  {
-    // We might not need this checkout https://github.com/scaffold-eth/scaffold-eth-2/pull/45#discussion_r1024496359, will test and remove this before merging
-    stallTimeout: 3_000,
-    // Sets pollingInterval if using chain's other than local hardhat chain
-    ...(configuredNetwork.id !== chains.hardhat.id
-      ? {
-          pollingInterval: scaffoldConfig.pollingInterval,
-        }
-      : {}),
-  },
+  // {
+  //   // We might not need this checkout https://github.com/scaffold-eth/scaffold-eth-2/pull/45#discussion_r1024496359, will test and remove this before merging
+  //   stallTimeout: 3_000,
+  //   // Sets pollingInterval if using chain's other than local hardhat chain
+  //   ...(configuredNetwork.id !== chains.hardhat.id
+  //     ? {
+  //         pollingInterval: scaffoldConfig.pollingInterval,
+  //       }
+  //     : {}),
+  // },
 );
 
 const walletsOptions = { chains: appChains.chains, projectId: scaffoldConfig.walletConnectProjectId };
@@ -53,7 +53,7 @@ const wallets = [
   braveWallet(walletsOptions),
   coinbaseWallet({ ...walletsOptions, appName: "scaffold-eth-2" }),
   rainbowWallet(walletsOptions),
-  ...(configuredNetwork.id === chains.hardhat.id || !onlyLocalBurnerWallet
+  ...(configuredNetwork.id === chains.goerli.id || !onlyLocalBurnerWallet
     ? [burnerWalletConfig({ chains: [appChains.chains[0]] })]
     : []),
   safeWallet({ ...walletsOptions, debug: false, allowedDomains: [/gnosis-safe.io$/, /app.safe.global$/] }),
