@@ -5,7 +5,7 @@ import HexagonIcon from "../assets/icons/HexagonIcon";
 import TokenIcon from "../assets/icons/TokenIcon";
 import { Button } from "../utils/Button";
 
-const propertyProjects = [
+export const propertyProjects = [
   {
     name: "Hotel Pennsylvania",
     image: "/images/pennsylvania.png",
@@ -36,10 +36,10 @@ const propertyProjects = [
   },
 ];
 
-const PropertyProjects = ({ name }: { name: string }) => {
+const PropertyProjects = ({ name: ProjectName }: { name: string }) => {
   return (
-    <div className="mx-8 mt-20 pb-16 border-b border-[#6D6D6D]">
-      <h2 className="text-2xl font-medium">{name}</h2>
+    <div className="mx-8 mt-10 md:mt-20 pb-16 border-b border-[#6D6D6D]">
+      <h2 className="text-2xl font-medium">{ProjectName}</h2>
       <div className="flex gap-4 mt-10">
         <Button>Open pools</Button>
         <Button disabled variant="outline">
@@ -66,7 +66,9 @@ const PropertyProjects = ({ name }: { name: string }) => {
                   <div className="flex flex-col">
                     <div className="flex gap-1">
                       <span className="font-medium text-white">{totalTokens}</span>
-                      <span className="text-[12px] text-base-400 ">aCity</span>
+                      <span className="text-[12px] text-base-400 ">
+                        {ProjectName === "Property Projects" ? "pCity" : "aCity"}
+                      </span>
                     </div>
                     <span className="text-base-400 font-light text-[8px]">Total tokens</span>
                   </div>
@@ -77,7 +79,9 @@ const PropertyProjects = ({ name }: { name: string }) => {
                   <div className="flex flex-col">
                     <div className="flex gap-1">
                       <span className="font-medium text-white">{availableTokens}</span>
-                      <span className="text-[12px] text-base-400 ">aCity</span>
+                      <span className="text-[12px] text-base-400 ">
+                        {ProjectName === "Property Projects" ? "pCity" : "aCity"}
+                      </span>
                     </div>
                     <span className="text-base-400 font-light text-[8px]">Available tokens</span>
                   </div>
@@ -86,7 +90,7 @@ const PropertyProjects = ({ name }: { name: string }) => {
 
               <div className="flex justify-between">
                 <Link
-                  href="#"
+                  href={`/${name}`}
                   className="bg-base-800 font-medium flex items-center text-[14px] gap-1 rounded-lg py-2 px-3 h-fit"
                 >
                   Go to pool
