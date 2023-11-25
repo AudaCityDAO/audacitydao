@@ -51,7 +51,7 @@ const PropertyProjects = ({ name: ProjectName }: { name: string }) => {
         {propertyProjects.map(({ name, availableTokens, totalTokens, image }, index) => (
           <div key={index} className="flex flex-col rounded-lg border bg-base-500 border-base-800">
             <div className="relative">
-              <img src={image} className="rounded-b-lg w-full h-full" alt="Pennsylvania" />
+              <img src={image} className="rounded-b-lg w-full h-[250px]" alt="Pennsylvania" />
               <Button className="absolute bottom-2 left-2 !rounded-full px-4 !py-1 text-[12px]" variant="rounded">
                 View on OpenSea
               </Button>
@@ -62,7 +62,9 @@ const PropertyProjects = ({ name: ProjectName }: { name: string }) => {
               </h5>
               <div className="flex gap-2 justify-between">
                 <div className="flex items-start gap-2">
-                  <TokenIcon />
+                  <div className="pt-1">
+                    <TokenIcon />
+                  </div>
                   <div className="flex flex-col">
                     <div className="flex gap-1">
                       <span className="font-medium text-white">{totalTokens}</span>

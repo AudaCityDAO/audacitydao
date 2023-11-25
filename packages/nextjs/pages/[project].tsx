@@ -60,7 +60,7 @@ const Project = () => {
 
         <div className="mt-5 flex flex-col md:flex-row gap-4">
           <div className="rounded-lg">
-            <img src={project?.image} alt={project?.name} />
+            <img className="w-[900px] h-[550px] object-cover" src={project?.image} alt={project?.name} />
           </div>
 
           <div className="flex flex-col gap-5">
@@ -87,11 +87,11 @@ const Project = () => {
         </div>
 
         <div className="mt-5">
-          <h2 className="font-bold text-[48px] text-primary-content">{project?.name}</h2>
+          <h2 className="font-bold text-[48px] text-primary-content mt-10">{project?.name}</h2>
           <div className="bg-blue-200 text-white rounded-full py-2 px-4 w-fit">Property Project</div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
           <ProjectDetailsCard title="100,000" subTitle="Total fractional value" type="USDC" />
           <ProjectDetailsCard title="50,000" subTitle="Total Tokens" type="pCity" />
           <ProjectDetailsCard title="50,000" subTitle="Total Tokens" type="pCity" />
