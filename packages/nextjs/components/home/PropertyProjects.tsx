@@ -5,38 +5,12 @@ import HexagonIcon from "../assets/icons/HexagonIcon";
 import TokenIcon from "../assets/icons/TokenIcon";
 import { Button } from "../utils/Button";
 
-export const propertyProjects = [
-  {
-    name: "Hotel Pennsylvania",
-    image: "/images/pennsylvania.png",
-    totalTokens: "100,000",
-    availableTokens: "30,000",
-    opeaSea: "https://github.com/",
-  },
-  {
-    name: "DAO Estate",
-    image: "/images/estate.png",
-    totalTokens: "50,000",
-    availableTokens: "5,000",
-    opeaSea: "https://github.com/",
-  },
-  {
-    name: "Clean Energy",
-    image: "/images/cleanEnergy.png",
-    totalTokens: "100,000",
-    availableTokens: "30,000",
-    opeaSea: "https://github.com/",
-  },
-  {
-    name: "Clean Energy",
-    image: "/images/cleanEnergy.png",
-    totalTokens: "100,000",
-    availableTokens: "30,000",
-    opeaSea: "https://github.com/",
-  },
-];
+interface IProject {
+  name: string;
+  data: { name: string; image: string; totalTokens: string; availableTokens: string; opeaSea: string }[];
+}
 
-const PropertyProjects = ({ name: ProjectName }: { name: string }) => {
+const PropertyProjects = ({ name: ProjectName, data }: IProject) => {
   return (
     <div className="mx-8 mt-10 md:mt-20 pb-16 border-b border-[#6D6D6D]">
       <h2 className="text-2xl font-medium">{ProjectName}</h2>
@@ -48,7 +22,7 @@ const PropertyProjects = ({ name: ProjectName }: { name: string }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-        {propertyProjects.map(({ name, availableTokens, totalTokens, image }, index) => (
+        {data.map(({ name, availableTokens, totalTokens, image }, index) => (
           <div key={index} className="flex flex-col rounded-lg border bg-base-500 border-base-800">
             <div className="relative">
               <img src={image} className="rounded-b-lg w-full h-[250px]" alt="Pennsylvania" />

@@ -6,16 +6,16 @@ import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { MetaHeader } from "~~/components/MetaHeader";
 import EllipseIcon from "~~/components/assets/icons/EllipseIcon";
-import { propertyProjects } from "~~/components/home/PropertyProjects";
 import ProjectDetails from "~~/components/project/ProjectDetails";
 import { Button } from "~~/components/utils/Button";
 import ProjectDetailsCard from "~~/components/utils/ProjectDetailsCard";
+import { audaciousProjects, propertyProjects } from "~~/constants";
 
 const Project = () => {
   const router = useRouter();
   const { address } = useAccount();
-
-  const findProject = propertyProjects?.filter(project => project.name === router.query.project);
+  const allProjects = [...propertyProjects, ...audaciousProjects];
+  const findProject = allProjects?.filter(project => project.name === router.query.project);
   const project = findProject[0];
   //   console.log(project);
 
