@@ -26,9 +26,15 @@ const PropertyProjects = ({ name: ProjectName, data }: IProject) => {
           <div key={index} className="flex flex-col rounded-lg border bg-base-500 border-base-800">
             <div className="relative">
               <img src={image} className="rounded-b-lg w-full h-[250px]" alt="Pennsylvania" />
-              <Button className="absolute bottom-2 left-2 !rounded-full px-4 !py-1 text-[12px]" variant="rounded">
-                View on OpenSea
-              </Button>
+              <Link
+                target="blank"
+                rel="noreferrer noOpener"
+                href="https://testnets.opensea.io/collection/unidentified-contract-c8ebb0af-7eda-4b77-bcc6-29d5"
+              >
+                <Button className="absolute bottom-2 left-2 !rounded-full px-4 !py-1 text-[12px]" variant="rounded">
+                  View on OpenSea
+                </Button>
+              </Link>
             </div>
             <div className="flex flex-col gap-4 px-3 pt-3 pb-5">
               <h5 className="font-semibold text-xl text-white text-ellipsis overflow-hidden whitespace-nowrap">

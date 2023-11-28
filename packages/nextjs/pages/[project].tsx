@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import abi from "../../nextjs/components/utils/abi.json";
 import { parseEther } from "viem";
@@ -14,6 +14,9 @@ import { audaciousProjects, propertyProjects } from "~~/constants";
 const Project = () => {
   const router = useRouter();
   const { address } = useAccount();
+  const [userToken, setUserToken] = useState(10);
+  const [availableTokens, setAvailableTokens] = useState(500000);
+  const [input, setInput] = useState(1);
   const allProjects = [...propertyProjects, ...audaciousProjects];
   const findProject = allProjects?.filter(project => project.name === router.query.project);
   const project = findProject[0];
@@ -28,7 +31,7 @@ const Project = () => {
 
   const {
     data: transaction,
-    write,
+    writeAsync,
     isLoading,
     isSuccess,
   } = useContractWrite({
@@ -36,18 +39,19 @@ const Project = () => {
     abi: abi,
     functionName: "deposit",
     args: [1],
-
-    value: parseEther("0.01"),
+    value: parseEther(`0.01`, "wei"),
   });
   const { data } = useWaitForTransaction({
     hash: transaction?.hash,
   });
-  console.log("data", data);
+
   useEffect(() => {
     if (data) {
-      alert("Transaction successfull");
+      setUserToken(prev => Number(prev) + Number(input));
+      setAvailableTokens(prev => prev - Number(input));
+      alert("Transaction successful");
     }
-  }, [isSuccess]);
+  }, [isSuccess, data]);
 
   return (
     <>
@@ -63,26 +67,34 @@ const Project = () => {
             <img className="w-[900px] h-[550px] object-cover" src={project?.image} alt={project?.name} />
           </div>
 
-          <div className="flex flex-col gap-5">
-            <div className="p-4 rounded-lg bg-base-800 min-w-[280px]">
+          <div className="flex flex-col">
+            {/* <div className="p-4 rounded-lg bg-base-800 min-w-[280px]">
               <div className="flex flex-row gap-1">
-                <span className="font-medium text-3xl text-white">1,000</span>
-                <span className="text-[12px] text-base-400">aCity</span>
+                <span className="font-medium text-3xl text-white">10</span>
+                <span className="text-[12px] text-base-400">pCity</span>
               </div>
-              <span className="text-base-400">Min. investment</span>
+              <span className="text-base-400 text-[10px]">Min. investment</span>
             </div>
 
             <div className="p-4 rounded-lg bg-base-800">
               <div className="flex flex-row gap-1">
                 <span className="font-medium text-3xl text-white">1,000</span>
-                <span className="text-[12px] text-base-400">aCity</span>
+                <span className="text-[12px] text-base-400">pCity</span>
               </div>
-              <span className="text-base-400">Min. investment</span>
-            </div>
+              <span className="text-base-400">Max. investment</span>
+            </div> */}
 
-            <Button className="!p-4 !bg-secondary" disabled={!address || isLoading} onClick={() => write()}>
+            <input
+              placeholder="Enter Token Amount"
+              type="number"
+              onChange={e => setInput(Number(e.target.value))}
+              className="my-2 rounded-lg p-4 placeholder:text-white placeholder:bg-transparent bg-base-800"
+            />
+            <Button className="!p-4 !bg-secondary" disabled={!address || isLoading} onClick={() => writeAsync()}>
               {address ? "Buy token" : "Connect wallet to buy token"}
             </Button>
+            <p className="mt-1 my-0 text-[12px] text-base-400">(Min. investment 10 pCity Tokens )</p>
+            <p className="mt-1 text-[12px] text-base-400">(Max. investment 10000 pCity Tokens )</p>
           </div>
         </div>
 
@@ -92,21 +104,21 @@ const Project = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
-          <ProjectDetailsCard title="100,000" subTitle="Total fractional value" type="USDC" />
-          <ProjectDetailsCard title="50,000" subTitle="Total Tokens" type="pCity" />
-          <ProjectDetailsCard title="50,000" subTitle="Total Tokens" type="pCity" />
-          <ProjectDetailsCard title="50,000" subTitle="Total Tokens" type="pCity" />
+          <ProjectDetailsCard title="10,000,000" subTitle="Total fractional value" type="USDC" />
+          <ProjectDetailsCard title="10,000,000" subTitle="Total Tokens" type="pCity" />
+          <ProjectDetailsCard title={availableTokens} subTitle="Available Tokens" type="pCity" />
+          <ProjectDetailsCard title="Nov 1 - Nov 30" subTitle="Pool duration" type="pCity" />
         </div>
 
         <ProjectDetails />
 
         <div className="mt-12"></div>
         <h2 className="text-[32px] text-primary-content my-5 flex items-center gap-4">
-          <EllipseIcon /> Project Summary
+          <EllipseIcon /> Portfolio Summary
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <ProjectDetailsCard title="300,000" subTitle="Return on investment" type="aCity" />
-          <ProjectDetailsCard title="3,000" subTitle="USDT Equivalent" type="USDT" />
+          <ProjectDetailsCard title={userToken} subTitle="Return on investment" type="pCity" />
+          <ProjectDetailsCard title={userToken} subTitle="USDT Equivalent" type="USDT" />
         </div>
       </div>
     </>
