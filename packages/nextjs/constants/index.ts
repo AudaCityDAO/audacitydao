@@ -23,8 +23,8 @@ export const propertyProjects = [
   {
     name: "Lekki Towers",
     image: "/images/penthouse.jpeg",
-    totalTokens: "100,000",
-    availableTokens: "30,000",
+    totalTokens: "10,000,000",
+    availableTokens: "500,000",
     opeaSea: "https://github.com/",
   },
 ];

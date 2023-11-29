@@ -14,7 +14,7 @@ import { audaciousProjects, propertyProjects } from "~~/constants";
 const Project = () => {
   const router = useRouter();
   const { address } = useAccount();
-  const [userToken, setUserToken] = useState(10);
+  const [userToken, setUserToken] = useState(0);
   const [availableTokens, setAvailableTokens] = useState(500000);
   const [input, setInput] = useState(1);
   const allProjects = [...propertyProjects, ...audaciousProjects];
@@ -117,8 +117,8 @@ const Project = () => {
           <EllipseIcon /> Portfolio Summary
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <ProjectDetailsCard title={userToken} subTitle="Return on investment" type="pCity" />
-          <ProjectDetailsCard title={userToken} subTitle="USDT Equivalent" type="USDT" />
+          <ProjectDetailsCard title={userToken} subTitle="Balance" type="pCity" />
+          <ProjectDetailsCard title={userToken} subTitle="USDC Equivalent" type="USDC" />
         </div>
       </div>
     </>
