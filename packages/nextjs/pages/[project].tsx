@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import abi from "../../nextjs/components/utils/abi.json";
 import { parseEther } from "viem";
-import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useAccount, useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { MetaHeader } from "~~/components/MetaHeader";
 import EllipseIcon from "~~/components/assets/icons/EllipseIcon";
@@ -14,7 +14,6 @@ import { audaciousProjects, propertyProjects } from "~~/constants";
 const Project = () => {
   const router = useRouter();
   const { address } = useAccount();
-  const [userToken, setUserToken] = useState(0);
   const [availableTokens, setAvailableTokens] = useState(500000);
   const [input, setInput] = useState(1);
   const allProjects = [...propertyProjects, ...audaciousProjects];
@@ -22,24 +21,25 @@ const Project = () => {
   const project = findProject[0];
   //   console.log(project);
 
-  //   const { data: totalBalance } = useContractRead({
-  //     address: "0xd2293FF3F8042e2C56967c554939dfDb4B556344",
-  //     abi: abi,
-  //     functionName: "getBalance",
-  //     args: [],
-  //   });
+  const { data: balance } = useContractRead({
+    address: "0x3060fBBAf28057112B26c1268C370949352d01Ad",
+    abi: abi,
+    functionName: "balanceOf",
+    args: [address, 2],
+  });
 
+  const userBalance = address ? Number(balance) / 1e18 : 0;
   const {
     data: transaction,
     writeAsync,
     isLoading,
     isSuccess,
   } = useContractWrite({
-    address: "0xd2293FF3F8042e2C56967c554939dfDb4B556344",
+    address: "0x3060fBBAf28057112B26c1268C370949352d01Ad",
     abi: abi,
     functionName: "deposit",
     args: [1],
-    value: parseEther(`0.01`, "wei"),
+    value: parseEther(`0.006`, "wei"),
   });
   const { data } = useWaitForTransaction({
     hash: transaction?.hash,
@@ -47,7 +47,6 @@ const Project = () => {
 
   useEffect(() => {
     if (data) {
-      setUserToken(prev => Number(prev) + Number(input));
       setAvailableTokens(prev => prev - Number(input));
       alert("Transaction successful");
     }
@@ -117,8 +116,8 @@ const Project = () => {
           <EllipseIcon /> Portfolio Summary
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <ProjectDetailsCard title={userToken} subTitle="Balance" type="pCity" />
-          <ProjectDetailsCard title={userToken} subTitle="USDC Equivalent" type="USDC" />
+          <ProjectDetailsCard title={userBalance} subTitle="Balance" type="pCity" />
+          <ProjectDetailsCard title={userBalance} subTitle="USDC Equivalent" type="USDC" />
         </div>
       </div>
     </>
